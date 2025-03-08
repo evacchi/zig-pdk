@@ -5,12 +5,12 @@ const extism = @import("ffi.zig");
 pub const Headers = struct {
     allocator: std.mem.Allocator,
     raw: []const u8,
-    internal: std.json.ArrayHashMap([]const u8),
+    map: std.json.ArrayHashMap([]const u8),
 
     /// Get a value (if it exists) from the Headers map at the provided name.
     /// NOTE: this may be a multi-value header, and will be a comma-separated list.
     pub fn get(self: Headers, name: []const u8) ?std.http.Header {
-        const val = self.internal.map.get(name);
+        const val = self.map.map.get(name);
         if (val) |v| {
             return std.http.Header{
                 .name = name,
@@ -23,22 +23,22 @@ pub const Headers = struct {
 
     /// Access the internal data to iterate over or mutate as needed.
     pub fn internal(self: Headers) std.json.ArrayHashMap([]const u8) {
-        return self.internal;
+        return self.map;
     }
 
     /// Check if the Headers is empty.
     pub fn isEmpty(self: Headers) bool {
-        return self.internal.map.entries.len == 0;
+        return self.map.map.entries.len == 0;
     }
 
     /// Check if a header exists in the Headers.
     pub fn contains(self: Headers, key: []const u8) bool {
-        return self.internal.map.contains(key);
+        return self.map.map.contains(key);
     }
 
     pub fn deinit(self: *Headers) void {
         self.allocator.free(self.raw);
-        self.internal.deinit(self.allocator);
+        self.map.deinit(self.allocator);
     }
 };
 
@@ -75,7 +75,7 @@ pub const HttpResponse = struct {
         return Headers{
             .allocator = allocator,
             .raw = data,
-            .internal = j.value,
+            .map = j.value,
         };
     }
 };
