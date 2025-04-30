@@ -1,5 +1,5 @@
 .{
-    .name = .extismPdk,
+    .name = .extism_pdk,
     .version = "1.4.0",
     .fingerprint = 0x78e77dc861df0af6,
     .paths = .{""},
