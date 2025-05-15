@@ -33,6 +33,9 @@ jobs:
       - name: Compile example
         run: |
           zig build basic_example
+          
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
 
       - name: Test example
         run : |
