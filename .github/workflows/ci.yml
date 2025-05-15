@@ -20,7 +20,8 @@ jobs:
         run: sudo curl -s https://get.extism.org/cli | sh -s -- -q -y
       
       - name: Check Extism version
-        run: extism --version
+        run: |
+          extism --version
 
       - name: Install Zig
         uses: mlugg/setup-zig@v2
